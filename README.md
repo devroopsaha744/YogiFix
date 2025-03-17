@@ -1,6 +1,6 @@
-# YogaFix
+# YogiFix
 
-YogFix is a  **real-time** Yoga Pose detection and feedback system built using **Python**, **OpenCV**, and **Mediapipe** for pose estimation. The system is served via a **FastAPI** backend that captures webcam frames server-side, processes them to detect poses, and provides real-time feedback over WebSocket connections.
+YogiFix is a  **real-time** Yoga Pose detection and feedback system built using **Python**, **OpenCV**, and **Mediapipe** for pose estimation. The system is served via a **FastAPI** backend that captures webcam frames server-side, processes them to detect poses, and provides real-time feedback over WebSocket connections.
 
 > **Important:** This version relies on **server-side webcam access** (using `cv2.VideoCapture(0)`). It must be deployed on hardware with an attached webcam (e.g., a local machine or a dedicated server/VPS with USB passthrough). Cloud platforms like Render or similar PaaS do not provide direct hardware access.
 
