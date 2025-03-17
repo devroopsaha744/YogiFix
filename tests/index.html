@@ -1,0 +1,335 @@
+<<<<<<< HEAD
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Yoga Pose Correction Client</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      background: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 26px;
+      font-weight: bold;
+    }
+    .main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      overflow: hidden;
+    }
+    .video-container {
+      flex: 3;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .sidebar {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .controls {
+      margin-bottom: 20px;
+    }
+    .controls label,
+    .controls select,
+    .controls button {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      margin: 5px 0;
+      border: none;
+      border-radius: 5px;
+    }
+    .controls select {
+      background: #e0e0e0;
+    }
+    .controls button {
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .controls button:hover {
+      background: #45a049;
+    }
+    .feedback-box {
+      background: #f9f9f9;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 20px;
+      line-height: 1.5;
+      height: 50%;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>Yoga Pose Correction Client</header>
+  <div class="main-container">
+    <div class="video-container">
+      <img id="video" src="" alt="Webcam Feed" />
+    </div>
+    <div class="sidebar">
+      <div class="controls">
+        <label for="poseSelect">Select Pose:</label>
+        <select id="poseSelect">
+          <option value="T">T Pose</option>
+          <option value="Triangle">Triangle Pose</option>
+          <option value="Tree">Tree Pose</option>
+          <option value="Crescent_lunge">Crescent Lunge</option>
+          <option value="Warrior">Warrior Pose</option>
+          <option value="Mountain">Mountain Pose</option>
+        </select>
+        <button id="startBtn">Start Training</button>
+        <button id="stopBtn">Stop Training</button>
+      </div>
+      <div id="feedback" class="feedback-box">
+        Feedback and similarity score will appear here.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let ws;
+    let clientId = "client_" + Math.floor(Math.random() * 10000);
+    let isConnected = false;
+
+    document.getElementById("startBtn").addEventListener("click", function(){
+      let poseType = document.getElementById("poseSelect").value;
+      ws = new WebSocket("ws://localhost:8000/ws/" + clientId);
+      ws.onopen = function() {
+        isConnected = true;
+        console.log("Connected to WebSocket");
+        ws.send(JSON.stringify({ "pose_type": poseType }));
+      };
+
+      ws.onmessage = function(event) {
+        let data = JSON.parse(event.data);
+        if(data.frame) {
+          document.getElementById("video").src = "data:image/jpeg;base64," + data.frame;
+        }
+        if(data.feedback) {
+          let feedbackText = data.feedback.feedback_text || "";
+          let similarity = data.feedback.similarity || 0;
+          let color = (similarity >= 0.8) ? "green" : "red";
+          document.getElementById("feedback").innerHTML = `<span style="color:${color};">
+            Similarity: ${(similarity * 100).toFixed(2)}%<br>
+            ${feedbackText.replace(/\n/g, "<br>")}
+          </span>`;
+        }
+      };
+
+      ws.onerror = function(error) {
+        console.error("WebSocket error: ", error);
+      };
+
+      ws.onclose = function() {
+        isConnected = false;
+        console.log("WebSocket connection closed");
+      };
+    });
+
+    document.getElementById("stopBtn").addEventListener("click", function(){
+      if(ws && isConnected) {
+        ws.send(JSON.stringify({ "command": "stop" }));
+        ws.close();
+      }
+    });
+  </script>
+</body>
+</html>
+=======
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Yoga Pose Correction Client</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f2f2f2;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+    header {
+      background: #4CAF50;
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 26px;
+      font-weight: bold;
+    }
+    .main-container {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      overflow: hidden;
+    }
+    .video-container {
+      flex: 3;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .sidebar {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .controls {
+      margin-bottom: 20px;
+    }
+    .controls label,
+    .controls select,
+    .controls button {
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      margin: 5px 0;
+      border: none;
+      border-radius: 5px;
+    }
+    .controls select {
+      background: #e0e0e0;
+    }
+    .controls button {
+      background: #4CAF50;
+      color: white;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .controls button:hover {
+      background: #45a049;
+    }
+    .feedback-box {
+      background: #f9f9f9;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 20px;
+      line-height: 1.5;
+      height: 50%;
+      overflow-y: auto;
+    }
+  </style>
+</head>
+<body>
+  <header>Yoga Pose Correction Client</header>
+  <div class="main-container">
+    <div class="video-container">
+      <img id="video" src="" alt="Webcam Feed" />
+    </div>
+    <div class="sidebar">
+      <div class="controls">
+        <label for="poseSelect">Select Pose:</label>
+        <select id="poseSelect">
+          <option value="T">T Pose</option>
+          <option value="Triangle">Triangle Pose</option>
+          <option value="Tree">Tree Pose</option>
+          <option value="Crescent_lunge">Crescent Lunge</option>
+          <option value="Warrior">Warrior Pose</option>
+          <option value="Mountain">Mountain Pose</option>
+        </select>
+        <button id="startBtn">Start Training</button>
+        <button id="stopBtn">Stop Training</button>
+      </div>
+      <div id="feedback" class="feedback-box">
+        Feedback and similarity score will appear here.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let ws;
+    let clientId = "client_" + Math.floor(Math.random() * 10000);
+    let isConnected = false;
+
+    document.getElementById("startBtn").addEventListener("click", function(){
+      let poseType = document.getElementById("poseSelect").value;
+      ws = new WebSocket("ws://localhost:8000/ws/" + clientId);
+      ws.onopen = function() {
+        isConnected = true;
+        console.log("Connected to WebSocket");
+        ws.send(JSON.stringify({ "pose_type": poseType }));
+      };
+
+      ws.onmessage = function(event) {
+        let data = JSON.parse(event.data);
+        if(data.frame) {
+          document.getElementById("video").src = "data:image/jpeg;base64," + data.frame;
+        }
+        if(data.feedback) {
+          let feedbackText = data.feedback.feedback_text || "";
+          let similarity = data.feedback.similarity || 0;
+          let color = (similarity >= 0.8) ? "green" : "red";
+          document.getElementById("feedback").innerHTML = `<span style="color:${color};">
+            Similarity: ${(similarity * 100).toFixed(2)}%<br>
+            ${feedbackText.replace(/\n/g, "<br>")}
+          </span>`;
+        }
+      };
+
+      ws.onerror = function(error) {
+        console.error("WebSocket error: ", error);
+      };
+
+      ws.onclose = function() {
+        isConnected = false;
+        console.log("WebSocket connection closed");
+      };
+    });
+
+    document.getElementById("stopBtn").addEventListener("click", function(){
+      if(ws && isConnected) {
+        ws.send(JSON.stringify({ "command": "stop" }));
+        ws.close();
+      }
+    });
+  </script>
+</body>
+</html>
+>>>>>>> 561effd (Adding MORE Yoga Poses, working fine locally)
