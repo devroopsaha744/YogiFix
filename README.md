@@ -36,7 +36,23 @@ The system is designed for scenarios where server-side processing is viable (e.g
 ## Features
 
 - **Real-Time Processing:** Captures and processes frames from a physical webcam attached to the server.
-- **Multiple Pose Detection:** Supports various yoga poses (T Pose, Triangle Pose, Tree Pose, Crescent Lunge, Warrior Pose, Mountain Pose).
+- **Multiple Pose Detection:** Supports a variety of yoga poses, including:
+  - T Pose
+  - Tree Pose
+  - Warrior 3 Pose
+  - Bridge Pose
+  - Cat Pose
+  - Cobra Pose
+  - Crescent Lunge Pose
+  - Downward Facing Dog Pose
+  - Leg-Up-The-Wall Pose
+  - Mountain Pose
+  - Padmasana (Lotus Pose)
+  - Pigeon Pose
+  - Seated Forward Bend
+  - Standing Forward Bend
+  - Triangle Pose
+  - Warrior Pose
 - **Detailed Feedback:** Computes similarity scores based on joint angles and generates corrective feedback.
 - **WebSocket Communication:** Uses FastAPI’s asynchronous WebSocket support for real-time bi-directional communication.
 - **CORS Enabled:** Easily integrates with separate front-end applications.
